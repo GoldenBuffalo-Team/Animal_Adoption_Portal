@@ -33,6 +33,12 @@ jobs:
         # A file, directory or wildcard pattern that describes what to upload
         path: ${{ github.workspace }}/artifact/*
         # The desired behavior if no files are found using the provided path.
+    - name: Deploy artifact to Azure Web App
+      uses: azure/webapp-deploy@v2
+      with:
+        app-name: buffaloWebApp-Dev
+        publish-profle: ${{ secrets.PUBLISH_PROFILE_SETTINGS }}
+        package: ${{ github.workspace }}/artifact/*
     - name: Notification for build failure
       uses: jdcargile/ms-teams-notification@v1.3
       if: failure()
