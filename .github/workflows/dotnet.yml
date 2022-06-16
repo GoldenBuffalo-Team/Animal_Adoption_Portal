@@ -34,7 +34,7 @@ jobs:
         path: ${{ github.workspace }}/artifact/*
         # The desired behavior if no files are found using the provided path.
     - name: Deploy artifact to Azure Web App
-      uses: azure/webapp-deploy@v2
+      uses: azure/webapps-deploy@v2
       with:
         app-name: buffaloWebApp-Dev
         publish-profle: ${{ secrets.PUBLISH_PROFILE_SETTINGS }}
