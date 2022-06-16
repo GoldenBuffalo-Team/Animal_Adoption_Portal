@@ -33,5 +33,18 @@ namespace AnimalAdoption.Service.Cart.UnitTests
             Assert.Equal("TEST_CART", resultingCart.Id);
             Assert.Equal(0, resultingCart.CartContents.First(x => x.Id == animalId).Quantity);
         }
+
+        [Fact]
+        public void CartManagement_EmptyCartAddNegativeAnimal_AnAnimalDoesNotGoIntoNegative1()
+        {
+            var animalId = 1;
+            var quantityAmount = -1;
+
+            var memoryCache = new MemoryCache(new MemoryCacheOptions());
+            var resultingCart = new CartService(memoryCache, new AnimalService()).SetAnimalQuantity("TEST_CART1", animalId, quantityAmount);
+
+            Assert.Equal("TEST_CART1", resultingCart.Id);
+            Assert.Equal(0, resultingCart.CartContents.First(x => x.Id == animalId).Quantity);
+        }
     }
 }
