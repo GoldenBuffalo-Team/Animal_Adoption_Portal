@@ -38,7 +38,7 @@ jobs:
       with:
         app-name: buffaloWebApp-Dev
         publish-profile: ${{ secrets.PUBLISH_PROFILE_SETTINGS }}
-        package: ${{ github.workspace }}/artifact/*
+        package: ${{ github.workspace }}/artifact
     - name: Notification for build failure
       uses: jdcargile/ms-teams-notification@v1.3
       if: failure()
