@@ -37,7 +37,7 @@ jobs:
       uses: azure/webapps-deploy@v2
       with:
         app-name: buffaloWebApp-Dev
-        publish-profle: ${{ secrets.PUBLISH_PROFILE_SETTINGS }}
+        publish-profile: ${{ secrets.PUBLISH_PROFILE_SETTINGS }}
         package: ${{ github.workspace }}/artifact/*
     - name: Notification for build failure
       uses: jdcargile/ms-teams-notification@v1.3
