@@ -24,7 +24,7 @@ jobs:
     - name: Test
       run: dotnet test AnimalAdoption.Web.Portal.UnitTests/AnimalAdoption.Web.Portal.UnitTests.csproj --no-build --verbosity normal
     - name: publish the artifact
-      run: dotnet publish ${{ github.workspace }}/artifact
+      run: dotnet publish AnimalAdoption.sln -o ${{ github.workspace }}/artifact
     - name: Upload a Build Artifact
       uses: actions/upload-artifact@v3.1.0
       with:
