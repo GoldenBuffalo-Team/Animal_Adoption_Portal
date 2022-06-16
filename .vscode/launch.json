@@ -6,6 +6,13 @@
     "configurations": [
         
         {
+            "name": ".NET Core Attach",
+            "type": "coreclr",
+            "request": "attach"
+        },
+
+
+        {
             "name": ".NET Core Launch (web)",
             "type": "coreclr",
             "request": "launch",
