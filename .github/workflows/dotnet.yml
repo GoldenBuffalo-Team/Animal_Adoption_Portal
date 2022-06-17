@@ -74,7 +74,7 @@ jobs:
         package: ${{ github.workspace }}/artifact
         startup-command: "dotnet AnimalAdoption.Web.Portal.dll"
   release_to_prod:
-  needs: build_dev
+    needs: build_dev
 
     runs-on: ubuntu-latest
     steps:
