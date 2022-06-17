@@ -44,7 +44,7 @@ jobs:
         subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION }}
         resourceGroupName: ${{ secrets.AZURE_RG }}
         template: ./deploy.bicep
-        parameters: "tenantGuid=ab5eb3d0-6067-40ee-b4c0-a2ce05dbf039 appServicePlanName=MyPlan keyVaultName=privatekey01 webAppName=buffaloWebApp-Prod resourceGroupServicePrincipalManagedApplicationObjectId=60b314e1-8a8c-48c0-be8b-20742f605c40"
+        parameters: "tenantGuid=ab5eb3d0-6067-40ee-b4c0-a2ce05dbf039 appServicePlanName=MyPlan keyVaultName=privatekey02 webAppName=buffaloWebApp-Prod resourceGroupServicePrincipalManagedApplicationObjectId=60b314e1-8a8c-48c0-be8b-20742f605c40"
         failOnStdErr: false
     - uses: Azure/get-keyvault-secrets@v1
       with:
