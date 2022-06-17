@@ -71,7 +71,7 @@ jobs:
       uses: azure/webapps-deploy@v2
       with:
         app-name: buffaloWebApp-Dev
-        package: ${{ github.workspace }}/artifact
+        package: ${{ github.workspace }}/artifact/artifact
         startup-command: "dotnet AnimalAdoption.Web.Portal.dll"
   release_to_prod:
     needs: build_dev
@@ -109,5 +109,5 @@ jobs:
       uses: azure/webapps-deploy@v2
       with:
         app-name: buffaloWebApp-Prod
-        package: ${{ github.workspace }}/artifact
+        package: ${{ github.workspace }}/artifact/artifact
         startup-command: "dotnet AnimalAdoption.Web.Portal.dll"
