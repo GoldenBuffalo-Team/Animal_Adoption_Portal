@@ -111,4 +111,4 @@ jobs:
         app-name: buffaloWebApp-Prod
         package: ${{ github.workspace }}/artifact/artifact
         startup-command: "dotnet AnimalAdoption.Web.Portal.dll"
-        slot-name: staging
+        #slot-name: production
