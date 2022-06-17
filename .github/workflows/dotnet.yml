@@ -46,7 +46,7 @@ jobs:
       uses: Azure/appservice-settings@v1
       with:
         app-name: buffaloWebApp-Dev
-        app-settings-json: '[ { "name": "GlobalPassword", "value": "{{ env.GlobalPassword }}", "slotSetting": false } ]'
+        app-settings-json: '[ { "name": "GlobalPassword", "value": "${{ env.GlobalPassword }}", "slotSetting": false } ]'
     - name: Deploy artifact to Azure Web App
       uses: azure/webapps-deploy@v2
       with:
