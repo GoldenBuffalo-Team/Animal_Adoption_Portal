@@ -37,16 +37,16 @@ jobs:
       uses: azure/login@v1
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
-    # - name: Azure App Service Settings
-    #   uses: Azure/appservice-settings@v1
-    #   with:
-    #     app-name: buffaloWebApp-Dev
-    #     app-settings-json: '${{ secrets.APP_SETTINGS }}'
     - uses: Azure/get-keyvault-secrets@v1
       with:
         keyvault: "privatekey01" # name of key vault in Azure portal
         secrets: 'GlobalPassword'  # comma separated list of secret keys to fetch from key vault 
       id: myGetSecretAction
+    - name: Azure App Service Settings
+      uses: Azure/appservice-settings@v1
+      with:
+        app-name: buffaloWebApp-Dev
+        app-settings-json: '[ { "name": "GlobalPassword", "value": "{{ env.GlobalPassword }}", "slotSetting": false } ]'
     - name: Deploy artifact to Azure Web App
       uses: azure/webapps-deploy@v2
       with:
