@@ -8,7 +8,6 @@ on:
 
 jobs:
   build_dev:
-
     runs-on: ubuntu-latest
 
     steps:
@@ -34,6 +33,7 @@ jobs:
         path: ${{ github.workspace }}/artifact/*
         # The desired behavior if no files are found using the provided path.
   release:
+    needs: build_dev
     runs-on: ubuntu-latest
 
     steps:
