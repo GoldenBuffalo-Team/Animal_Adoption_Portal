@@ -37,6 +37,14 @@ jobs:
       uses: azure/login@v1
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
+     # Deploy Bicep file
+    - name: deploy
+      uses: azure/arm-deploy@v1
+      with:
+        subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION }}
+        resourceGroupName: ${{ secrets.AZURE_RG }}
+        template: ./deploy.bicep
+        failOnStdErr: false
     - uses: Azure/get-keyvault-secrets@v1
       with:
         keyvault: "privatekey01" # name of key vault in Azure portal
