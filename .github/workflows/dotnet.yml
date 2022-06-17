@@ -35,10 +35,10 @@ jobs:
           ${{ github.workspace }}/artifact/*
           ${{ github.workspace }}/deploy.bicep
         # The desired behavior if no files are found using the provided path.
-  release:
+  release_to_dev:
     needs: build_dev
-    runs-on: ubuntu-latest
 
+    runs-on: ubuntu-latest
     steps:
     - uses: actions/download-artifact@v3
       with:
@@ -49,17 +49,55 @@ jobs:
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
      # Deploy Bicep file
-    - name: deploy
+    - name: deploy to dev env
       uses: azure/arm-deploy@v1
       with:
         subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION }}
-        resourceGroupName: ${{ secrets.AZURE_RG }}
+        resourceGroupName: ${{ secrets.AZURE_RG_DEV }}
         template: ${{ github.workspace }}/artifact/deploy.bicep
-        parameters: "tenantGuid=ab5eb3d0-6067-40ee-b4c0-a2ce05dbf039 appServicePlanName=MyPlan keyVaultName=privatekey02 webAppName=buffaloWebApp-Prod resourceGroupServicePrincipalManagedApplicationObjectId=60b314e1-8a8c-48c0-be8b-20742f605c40"
+        parameters: "tenantGuid=ab5eb3d0-6067-40ee-b4c0-a2ce05dbf039 appServicePlanName=MyPlanDev keyVaultName=privatekey01 webAppName=buffaloWebApp-Dev resourceGroupServicePrincipalManagedApplicationObjectId=60b314e1-8a8c-48c0-be8b-20742f605c40"
         failOnStdErr: false
     - uses: Azure/get-keyvault-secrets@v1
       with:
         keyvault: "privatekey01" # name of key vault in Azure portal
+        secrets: 'GlobalPassword'  # comma separated list of secret keys to fetch from key vault 
+      id: myGetSecretAction
+    - name: Azure App Service Settings
+      uses: Azure/appservice-settings@v1
+      with:
+        app-name: buffaloWebApp-Dev
+        app-settings-json: '[ { "name": "GlobalPassword", "value": "${{ env.GlobalPassword }}", "slotSetting": false } ]'
+    - name: Deploy artifact to Azure Web App
+      uses: azure/webapps-deploy@v2
+      with:
+        app-name: buffaloWebApp-Dev
+        package: ${{ github.workspace }}/artifact
+        startup-command: "dotnet AnimalAdoption.Web.Portal.dll"
+  release_to_prod:
+  needs: build_dev
+
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/download-artifact@v3
+      with:
+        name: artifact
+        path: ${{ github.workspace }}/artifact
+    - name: Az login action
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+     # Deploy Bicep file
+    - name: deploy to dev env
+      uses: azure/arm-deploy@v1
+      with:
+        subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION }}
+        resourceGroupName: ${{ secrets.AZURE_RG_PROD }}
+        template: ${{ github.workspace }}/artifact/deploy.bicep
+        parameters: "tenantGuid=ab5eb3d0-6067-40ee-b4c0-a2ce05dbf039 appServicePlanName=MyPlanProd keyVaultName=privatekey02 webAppName=buffaloWebApp-Prod resourceGroupServicePrincipalManagedApplicationObjectId=60b314e1-8a8c-48c0-be8b-20742f605c40"
+        failOnStdErr: false
+    - uses: Azure/get-keyvault-secrets@v1
+      with:
+        keyvault: "privatekey02" # name of key vault in Azure portal
         secrets: 'GlobalPassword'  # comma separated list of secret keys to fetch from key vault 
       id: myGetSecretAction
     - name: Azure App Service Settings
