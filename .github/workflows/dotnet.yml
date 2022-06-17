@@ -32,8 +32,8 @@ jobs:
         name: artifact
         # A file, directory or wildcard pattern that describes what to upload
         path: |
-        ${{ github.workspace }}/artifact/* 
-        ${{ github.workspace }}/deploy.bicep
+          ${{ github.workspace }}/artifact/*
+          ${{ github.workspace }}/deploy.bicep
         # The desired behavior if no files are found using the provided path.
   release:
     needs: build_dev
