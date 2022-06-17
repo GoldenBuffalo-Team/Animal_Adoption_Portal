@@ -44,7 +44,7 @@ jobs:
         subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION }}
         resourceGroupName: ${{ secrets.AZURE_RG }}
         template: ./deploy.bicep
-        parameters: "tenantGuid=ab5eb3d0-6067-40ee-b4c0-a2ce05dbf039 appServicePlanName=MyPlan keyVaultName=privatekey01 webAppName=buffaloWebApp-Dev resourceGroupServicePrincipalManagedApplicationObjectId=60b314e1-8a8c-48c0-be8b-20742f605c40"
+        parameters: "tenantGuid=ab5eb3d0-6067-40ee-b4c0-a2ce05dbf039 appServicePlanName=MyPlan keyVaultName=privatekey01 webAppName=buffaloWebApp-Prod resourceGroupServicePrincipalManagedApplicationObjectId=60b314e1-8a8c-48c0-be8b-20742f605c40"
         failOnStdErr: false
     - uses: Azure/get-keyvault-secrets@v1
       with:
@@ -54,12 +54,12 @@ jobs:
     - name: Azure App Service Settings
       uses: Azure/appservice-settings@v1
       with:
-        app-name: buffaloWebApp-Dev
+        app-name: buffaloWebApp-Prod
         app-settings-json: '[ { "name": "GlobalPassword", "value": "${{ env.GlobalPassword }}", "slotSetting": false } ]'
     - name: Deploy artifact to Azure Web App
       uses: azure/webapps-deploy@v2
       with:
-        app-name: buffaloWebApp-Dev
+        app-name: buffaloWebApp-Prod
         package: ${{ github.workspace }}/artifact
         startup-command: "dotnet AnimalAdoption.Web.Portal.dll"
     
