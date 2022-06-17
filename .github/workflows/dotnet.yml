@@ -7,7 +7,7 @@ on:
     branches: [ "master" ]
 
 jobs:
-  build:
+  build_dev:
 
     runs-on: ubuntu-latest
 
@@ -33,6 +33,14 @@ jobs:
         # A file, directory or wildcard pattern that describes what to upload
         path: ${{ github.workspace }}/artifact/*
         # The desired behavior if no files are found using the provided path.
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/download-artifact@v3
+      with:
+        name: artifact
+        path: ${{ github.workspace }}/artifact
     - name: Az login action
       uses: azure/login@v1
       with:
@@ -62,4 +70,3 @@ jobs:
         app-name: buffaloWebApp-Prod
         package: ${{ github.workspace }}/artifact
         startup-command: "dotnet AnimalAdoption.Web.Portal.dll"
-    
