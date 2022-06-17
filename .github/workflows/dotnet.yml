@@ -37,6 +37,11 @@ jobs:
       uses: azure/login@v1
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
+    - name: Azure App Service Settings
+      uses: Azure/appservice-settings@v1
+      with:
+        app-name: buffaloWebApp-Dev
+        app-settings-json: '${{ secrets.APP_SETTINGS }}'
     - name: Deploy artifact to Azure Web App
       uses: azure/webapps-deploy@v2
       with:
